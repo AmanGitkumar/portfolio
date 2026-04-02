@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aman Kumar — Developer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080c14;
+    --surface: #0e1420;
+    --surface2: #141c2e;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: rgba(0,212,255,0.15);
+    --glow: 0 0 30px rgba(0,212,255,0.2);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(8,12,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-inner { max-width: 800px; }
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-name {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 550px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    background: rgba(0,212,255,0.05);
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+    outline: 1px solid var(--accent);
+    box-shadow: var(--glow);
+  }
+  .btn-secondary {
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+  .stat-item { text-align: left; }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; letter-spacing: 1px; }
+
+  /* SECTION WRAPPER */
+  .section-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 4rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--surface); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .project-card:hover { border-color: rgba(0,212,255,0.4); transform: translateY(-4px); box-shadow: var(--glow); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .project-highlights {
+    list-style: none;
+    margin-bottom: 1.5rem;
+  }
+  .project-highlights li {
+    font-size: 0.82rem;
+    color: var(--text);
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .project-highlights li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent3);
+    font-size: 0.7rem;
+  }
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .stack-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.3rem 0.75rem;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 4px;
+    color: #a78bfa;
+    letter-spacing: 0.5px;
+  }
+  .project-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.8rem; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-category {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    transition: border-color 0.3s;
+  }
+  .skill-category:hover { border-color: rgba(0,212,255,0.35); }
+  .skill-cat-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .skill-tag {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.9rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ACHIEVEMENTS */
+  #achievements { background: var(--surface); }
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .achievement-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .achievement-card:hover { border-color: rgba(16,185,129,0.4); transform: translateX(4px); }
+  .achievement-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .achievement-text { font-size: 0.88rem; color: var(--text); line-height: 1.6; }
+  .achievement-text strong { color: var(--accent3); }
+
+  /* EXPERIENCE */
+  .exp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .exp-card:hover { border-color: rgba(0,212,255,0.3); }
+  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .exp-title { font-size: 1.1rem; font-weight: 700; }
+  .exp-date { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 1px; }
+  .exp-org { font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; }
+  .exp-list { list-style: none; }
+  .exp-list li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding: 0.3rem 0 0.3rem 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .exp-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent2); }
+
+  /* CONTACT */
+  #contact { background: var(--surface); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .contact-left h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
+  .contact-left p { color: var(--muted); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.88rem;
+    transition: all 0.3s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateX(4px); }
+  .contact-link-icon { font-size: 1.2rem; }
+  .contact-link-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); display: block; margin-top: 2px; letter-spacing: 1px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2.5rem;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    #hero, .section-wrap { padding: 6rem 1.5rem 3rem; }
+    .stats-row { gap: 1.5rem; flex-wrap: wrap; }
+    .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-name { font-size: 2.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">AK.dev</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">// Full Stack Developer & Competitive Programmer</p>
+    <h1 class="hero-name">Aman<br /><span>Kumar</span></h1>
+    <p class="hero-sub">
+      B.Tech ECE student at <strong style="color:var(--text)">IIT (BHU) Varanasi</strong> — building real-world web apps, crushing DSA problems, and shipping things that matter.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">C / C++</span>
+      <span class="badge">React.js</span>
+      <span class="badge">Node.js</span>
+      <span class="badge">MongoDB</span>
+      <span class="badge">DSA</span>
+      <span class="badge">Socket.io</span>
+      <span class="badge">AI / Python</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="mailto:amankr1956@gmail.com" class="btn-secondary">Hire Me</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-num">1100+</div>
+        <div class="stat-label">DSA Problems Solved</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">160</div>
+        <div class="stat-label">Global Rank CodeChef</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">98.46%</div>
+        <div class="stat-label">IIT Entrance Percentile</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Live Projects</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-year">2025</div>
+        <div class="project-title">Finance Tracker</div>
+        <p class="project-desc">Full-stack personal finance tool that improved user financial visibility by 30% through intuitive tracking and smart insights.</p>
+        <ul class="project-highlights">
+          <li>Secure user authentication & authorization</li>
+          <li>4+ core features: income tracking, bill reminders, savings goals</li>
+          <li>Responsive frontend with real-time data updates</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">HTML/CSS/JS</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Express.js</span>
+          <span class="stack-tag">MongoDB</span>
+          <span class="stack-tag">Postman</span>
+        </div>
+        <a href="https://github.com/AmanGitkumar" class="project-link" target="_blank">View on GitHub →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-year">2024</div>
+        <div class="project-title">Real-Time Chat App</div>
+        <p class="project-desc">Full-stack chat application supporting 1000+ concurrent users with sub-100ms messaging and complete data privacy.</p>
+        <ul class="project-highlights">
+          <li>JWT + bcrypt for secure stateful session handling</li>
+          <li>Socket.io for instant messaging & Multer for image uploads</li>
+          <li>20+ API endpoints validated with Postman</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Socket.io</span>
+          <span class="stack-tag">Node.js</span>
+          <span class="stack-tag">Express.js</span>
+          <span class="stack-tag">MongoDB</span>
+          <span class="stack-tag">JWT</span>
+          <span class="stack-tag">Multer</span>
+        </div>
+        <a href="https://github.com/AmanGitkumar" class="project-link" target="_blank">View on GitHub →</a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-year">2024</div>
+        <div class="project-title">AI Tennis Player Tracker</div>
+        <p class="project-desc">AI-powered sports analytics system tracking tennis players with 95% accuracy, maintaining ID across 96% of occlusion sequences.</p>
+        <ul class="project-highlights">
+          <li>YOLOv8 for real-time player detection</li>
+          <li>DeepSORT for persistent multi-object tracking</li>
+          <li>NumPy distance algorithms + OpenCV visualization</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">YOLOv8</span>
+          <span class="stack-tag">DeepSORT</span>
+          <span class="stack-tag">OpenCV</span>
+          <span class="stack-tag">NumPy</span>
+        </div>
+        <a href="https://github.com/AmanGitkumar" class="project-link" target="_blank">View on GitHub →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">C</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React.js</span>
+          <span class="skill-tag">Bootstrap</span>
+          <span class="skill-tag">Tailwind CSS</span>
+          <span class="skill-tag">Socket.io (client)</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">Socket.io</span>
+          <span class="skill-tag">JWT</span>
+          <span class="skill-tag">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Database & Cloud</div>
+        <div class="skill-tags">
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Mongoose</span>
+          <span class="skill-tag">Firebase</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">Supabase</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">AI / Data Science</div>
+        <div class="skill-tags">
+          <span class="skill-tag">YOLOv8</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">DeepSORT</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Tools & DSA</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git / GitHub</span>
+          <span class="skill-tag">Postman</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">LeetCode</span>
+          <span class="skill-tag">Codeforces</span>
+          <span class="skill-tag">Figma</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Achievements</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="achievements-grid">
+      <div class="achievement-card reveal">
+        <div class="achievement-icon">🧩</div>
+        <div class="achievement-text">Solved <strong>1100+ DSA problems</strong> across LeetCode, Codeforces, CodeChef, and GeeksforGeeks</div>
+      </div>
+      <div class="achievement-card reveal">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">Selected among <strong>top 10 projects</strong> at Devbits, Electronics Engineering Society, IIT (BHU)</div>
+      </div>
+      <div class="achievement-card reveal">
+        <div class="achievement-icon">🌍</div>
+        <div class="achievement-text"><strong>Ranked 160 globally</strong> in CodeChef Starters 205 — CodeChef rating 1435</div>
+      </div>
+      <div class="achievement-card reveal">
+        <div class="achievement-icon">📊</div>
+        <div class="achievement-text">Achieved <strong>96.71 percentile</strong> among 1.2 million students in IIT entrance examination</div>
+      </div>
+      <div class="achievement-card reveal">
+        <div class="achievement-icon">🎯</div>
+        <div class="achievement-text">Led <strong>TECHNEX 2024</strong> marketing team of 30+ members for events with 5000+ participants</div>
+      </div>
+      <div class="achievement-card reveal">
+        <div class="achievement-icon">🤝</div>
+        <div class="achievement-text">Coordinated <strong>JAGRITI 2024</strong>, guiding 15+ teams through social impact challenges</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="exp-card reveal">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Leadership & Coordination Roles</div>
+          <div class="exp-org">IIT (BHU) Varanasi</div>
+        </div>
+        <div class="exp-date">Feb 2024 – May 2027</div>
+      </div>
+      <ul class="exp-list">
+        <li>Directed Techno-Management Event (TECHNEX 2024), managing 30+ member marketing team for 5000+ participant events</li>
+        <li>Coordinated Social Service Council Event (JAGRITI 2024), guiding 15+ teams through social impact challenges</li>
+        <li>Served as Tech Team Member, Social Project Club — contributed to 5+ technical initiatives for social causes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <h3>Let's build<br /><span style="color:var(--accent)">something great.</span></h3>
+        <p>I'm actively looking for internship opportunities in Full Stack Development or Software Engineering. If you have a role or project in mind, let's talk!</p>
+        <a href="mailto:amankr1956@gmail.com" class="btn-primary" style="display:inline-block">Send Email →</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:amankr1956@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <span>
+            amankr1956@gmail.com
+            <span class="contact-link-label">EMAIL</span>
+          </span>
+        </a>
+        <a href="https://linkedin.com/in/aman-kumar4" class="contact-link" target="_blank">
+          <span class="contact-link-icon">💼</span>
+          <span>
+            linkedin.com/in/aman-kumar4
+            <span class="contact-link-label">LINKEDIN</span>
+          </span>
+        </a>
+        <a href="https://github.com/AmanGitkumar" class="contact-link" target="_blank">
+          <span class="contact-link-icon">🐙</span>
+          <span>
+            github.com/AmanGitkumar
+            <span class="contact-link-label">GITHUB</span>
+          </span>
+        </a>
+        <a href="tel:+918057301956" class="contact-link">
+          <span class="contact-link-icon">📱</span>
+          <span>
+            +91 8057301956
+            <span class="contact-link-label">PHONE</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & Built by Aman Kumar · IIT (BHU) Varanasi · 2025</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
